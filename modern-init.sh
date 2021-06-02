@@ -126,7 +126,7 @@ fi
 
 rm -rf ./cache
 
-read -p "$(echo -e "\e[1;37;45m What's your BROWSERSYNC_PROXY(eg: http://myvhost.test) :  \e[0m")" vhost
+read -p "$(echo -e "\e[1;37;45m What's your BROWSERSYNC_PROXY(eg: http://localhost:8081) :  \e[0m")" vhost
 
 if [ -z $vhost ]
 then

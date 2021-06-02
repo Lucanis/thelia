@@ -13,17 +13,6 @@ body.Navigation--active {
 	}
 }
 
-.Desktop-Navigation {
-	top: var(--Header-height);
-	.Navigation-item {
-		&.hoverable:hover {
-			.Navigation-item-submenu {
-				display: block;
-			}
-		}
-	}
-}
-
 .Navigation {
 	top: var(--Header-height);
 	width: var(--nav-width);

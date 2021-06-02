@@ -1,30 +1,127 @@
+{extends file="layout.tpl"}
 
-
-<!doctype html>
-<html>
-<head>
-  <!-- ... -->
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" type="text/css" href="{getFileFromManifest file="app.css"}"/>
-</head>
-<body class="py-24">
-  <div class="container mx-auto">
-    <div>
-      <p class="text-xs">text-xs</p>
-      <p class="text-sm">text-sm</p>
-      <p class="text-base">text-base</p>
-      <p class="text-lg">text-lg</p>
-      <p class="text-xl">text-xl</p>
-      <p class="text-2xl">text-2xl</p>
-      <p class="text-3xl">text-3xl</p>
-      <p class="text-4xl">text-4xl</p>
-      <p class="text-5xl">text-5xl</p>
-      <p class="text-6xl">text-6xl</p>
-      <p class="text-7xl">text-7xl</p>
-      <p class="text-8xl">text-8xl</p>
-      <p class="text-9xl">text-9xl</p>
+{block name="main-content"}
+<div class="-mx-8 bg-gray-100">
+  <div class="sticky top-0 px-8 py-4 bg-white border-b divide-x sidebar" style="top: var(--Header-height)">
+    <a href="#typographie" class="pr-4 text-center">Typographie</a>
+    <a href="#couleurs" class="px-4 text-center">couleurs</a>
+    <a href="#boutons" class="px-4 text-center">Boutons</a>
+    <a href="#formulaires" class="px-4 text-center">Formulaires</a>
+    <a href="#labels" class="px-4 text-center">Labels</a>
+    <a href="#icones" class="px-4 text-center">Icones</a>
+    <a href="#accordeons" class="px-4 text-center">Accordéons</a>
+    <a href="#modals" class="px-4 text-center">Modals</a>
+  </div>
+  <div class="content">
+    <div id="typographie" class="p-8 m-8 bg-white border">
+      <div class="mb-4 text-4xl uppercase">Typographies</div>
+      <div class="flex flex-col divide-y">
+        <div class="grid grid-cols-2 pb-4">
+          <div>
+            Headline style 1 <br />
+            font xxx <br />
+            size: xxx <br />
+            line height: xxx
+          </div>
+          <h1 class="text-4xl">The quick brown fox jumped over the lazy dog.</h1>
+        </div>
+        <div class="grid grid-cols-2 py-4">
+          <div>
+            Headline style 2 <br />
+            font xxx <br />
+            size: xxx <br />
+            line height: xxx
+          </div>
+          <h2 class="text-3xl">The quick brown fox jumped over the lazy dog.</h2>
+        </div>
+        <div class="grid grid-cols-2 py-4">
+          <div>
+            Headline style 3 <br />
+            font xxx <br />
+            size: xxx <br />
+            line height: xxx
+          </div>
+          <h3 class="text-2xl">The quick brown fox jumped over the lazy dog.</h3>
+        </div>
+        <div class="grid grid-cols-2 py-4">
+          <div>
+            Headline style 4 <br />
+            font xxx <br />
+            size: xxx <br />
+            line height: xxx
+          </div>
+          <h4 class="text-xl">The quick brown fox jumped over the lazy dog.</h4>
+        </div>
+        <div class="grid grid-cols-2 py-4">
+          <div>
+            Headline style 5 <br />
+            font xxx <br />
+            size: xxx <br />
+            line height: xxx
+          </div>
+          <h5 class="text-lg">The quick brown fox jumped over the lazy dog.</h5>
+        </div>
+        <div class="grid grid-cols-2 py-4">
+          <div>
+            Headline style 6 <br />
+            font xxx <br />
+            size: xxx <br />
+            line height: xxx
+          </div>
+          <h1>The quick brown fox jumped over the lazy dog.</h1>
+        </div>
+      </div>
+      <div class="py-4 mt-4 border-t border-gray-800 divide-y">
+        <div class="grid grid-cols-2 py-4">
+          <div>
+            text style 1 <br />
+            font xxx <br />
+            size: xxx <br />
+            line height: xxx
+          </div>
+          <h1>The quick brown fox jumped over the lazy dog.</h1>
+        </div>
+        <div class="grid grid-cols-2 py-4">
+          <div>
+            text style 2 <br />
+            font xxx <br />
+            size: xxx <br />
+            line height: xxx
+          </div>
+          <h1>The quick brown fox jumped over the lazy dog.</h1>
+        </div>
+        <div class="grid grid-cols-2 py-4">
+          <div>
+            text style 3 <br />
+            font xxx <br />
+            size: xxx <br />
+            line height: xxx
+          </div>
+          <h1>The quick brown fox jumped over the lazy dog.</h1>
+        </div>
+      </div>
+    </div>
+    <div id="couleurs" class="p-8 m-8 bg-white border">
+      <div class="mb-4 text-4xl uppercase">Couleurs</div>
+    </div>
+    <div id="boutons" class="p-8 m-8 bg-white border">
+      <div class="mb-4 text-4xl uppercase">Boutons</div>
+    </div>
+    <div id="formulaires" class="p-8 m-8 bg-white border">
+      <div class="mb-4 text-4xl uppercase">Formulaires</div>
+    </div>
+    <div id="labels" class="p-8 m-8 bg-white border">
+      <div class="mb-4 text-4xl uppercase">Labels</div>
+    </div>
+    <div id="icones" class="p-8 m-8 bg-white border">
+      <div class="mb-4 text-4xl uppercase">Icones</div>
+    </div>
+    <div id="accordeons" class="p-8 m-8 bg-white border">
+      <div class="mb-4 text-4xl uppercase">Accordéons</div>
+    </div>
+    <div id="modals" class="p-8 m-8 bg-white border">
+      <div class="mb-4 text-4xl uppercase">Modals</div>
     </div>
   </div>
-</body>
-</html>
+</div>
+{/block}
