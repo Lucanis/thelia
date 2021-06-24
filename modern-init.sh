@@ -133,8 +133,6 @@ echo  "Building template"
 yarn build || exit 1
 
 
-cd ../../..
-
 echo  "${green}Everything is ok, you can now use your Thelia !${reset}"
 
 exit 0
