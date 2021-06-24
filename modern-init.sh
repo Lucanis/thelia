@@ -116,25 +116,25 @@ if test -f "$DB_FILE"; then
         php setup/import.php
       else
         echo  "${red}Import script not found${reset}"
-        exit
+        exit 1
       fi
       echo  "${green}Sample data imported${reset}"
     fi
 fi
 
-rm -rf ./cache || exit
+rm -rf ./cache || exit 1
 
 cd "templates/frontOffice/$TEMPLATE_NAME"
 
 echo  "Installing dependencies with yarn"
-yarn install || exit
+yarn install || exit 1
 
 echo  "Building template"
-yarn build || exit
+yarn build || exit 1
 
 
 cd ../../..
 
 echo  "${green}Everything is ok, you can now use your Thelia !${reset}"
 
-exit 1
+exit 0
