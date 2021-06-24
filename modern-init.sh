@@ -2,149 +2,142 @@
 
 set -e
 
-echo -e "Checking node version"
-if which node > /dev/null
-  then
-    node_version="$(node --version  | cut -c 2,3)";
-    if [[ "$node_version" =~ ^(10|11|12|14|15)$ ]]
-      then
-        echo -e "Node: OK (v$node_version)"
-      else
-        echo -e "Your Node.js version isn't supported by this project, you need one of this versions: v10, v11, v12, v13, v14, v15"
-        exit 1
-    fi
-  else
-    echo -e "Node.js is not installed or not in your PATH"
-    exit 1
-fi
+#COLORS
+red=`tput setaf 1`
+green=`tput setaf 2`
+yellow=`tput setaf 3`
+reset=`tput sgr0`
 
-echo -e "Checking yarn is installed"
-if ! command -v yarn &> /dev/null
-then
-    echo -e "Yarn is not installed or not in your PATH"
-    exit
-else
-    echo -e "Yarn: OK"
-fi
+NEWLINE=$'\n'
 
-echo -e "Checking composer is installed"
-
-if which composer > /dev/null
-  then
-    echo -e "Composer: OK"
-  else
-    echo -e "Composer is not installed or not in your PATH"
-    exit 1
-fi
-
-
+TEMPLATE_NAME=modern
 DB_FILE=./local/config/database.yml
 
+
+echo  "Checking node is installed"
+if command -v node > /dev/null 2>&1
+then
+    echo "${green}Node: OK${reset}"
+else
+    echo "${red}Node is not installed nor in your PATH${reset}"
+    exit 1
+fi
+
+echo  "Checking yarn is installed"
+if command -v yarn > /dev/null 2>&1
+then
+    echo "${green}Yarn: OK${reset}"
+else
+    echo "${red}Yarn is not installed or nor in your PATH${reset}"
+    exit 1
+fi
+
+echo "Checking composer is installed"
+
+if command -v composer > /dev/null 2>&1
+  then
+    echo "${green}Composer: OK${reset}"
+  else
+    echo "${red}Composer is not installed nor in your PATH${reset}"
+    exit 1
+fi
+
+
 if test -f "$DB_FILE"; then
-    read -p "$(echo -e "Would you like to erase the current database.yml file (y/n)?" erase
+    read -p "$(echo "Would you like to erase the current database.yml file [y/n] ?")" erase
     if [ "$erase" != "${erase#[Yy]}" ] ;then
-        echo -e "Removing current database.yml"
+        echo  "Removing current database.yml"
         rm $DB_FILE
         rm -rf ./cache
-        echo -e "database.yml removed"
     fi
 fi
 
-echo -e "Installing composer dependencies"
+echo "Installing composer dependencies"
 composer install
-echo -e "Dependencies installed"
 
-read -p "$(echo -e "Enter a template folder name, (default: modern) it's recommended to change it : ")" TEMPLATE_NAME
+read -p "$(echo  "Enter a template folder name, (default: modern) it's recommended to change it : ")" TEMPLATE_NAME
 TEMPLATE_NAME=${TEMPLATE_NAME:-modern}
 
 if [ "$TEMPLATE_NAME" != "modern" ] ;then
-  echo -e "Copying template files to templates/frontOffice/$TEMPLATE_NAME"
+  echo  "Copying template files to templates/frontOffice/$TEMPLATE_NAME"
   cp -r "templates/frontOffice/modern" "templates/frontOffice/$TEMPLATE_NAME";
-  echo -e "template copied"
 fi
 
-echo -e "Creating session and media folder"
+echo  "Creating session and media folder"
 [ -d local/session ] || mkdir -p local/session
 [ -d local/media ] || mkdir -p local/media
 
 chmod -R +w local/session && chmod -R +w local/media
-echo -e "Folder created"
 
 
-echo -e "Installing Thelia"
-php Thelia thelia:install
-echo -e "Thelia installed"
+read -p "$(echo "Would you like to install Thelia [y/n] ?")" install
+if [ "$install" != "${install#[Yy]}" ] ;then
+    echo  "Installing Thelia"
+    php Thelia thelia:install
 
-echo -e "Activating modules"
-php Thelia module:refresh
-php Thelia module:activate OpenApi
-php Thelia module:activate ChoiceFilter
-php Thelia module:activate StoreSeo
-php Thelia module:activate SmartyRedirection
-php Thelia module:activate BestSellers
-php Thelia module:deactivate HookAdminHome
-php Thelia module:deactivate HookAnalytics
-php Thelia module:deactivate HookCart
-php Thelia module:deactivate HookCustomer
-php Thelia module:deactivate HookSearch
-php Thelia module:deactivate HookLang
-php Thelia module:deactivate HookCurrency
-php Thelia module:deactivate HookNavigation
-php Thelia module:deactivate HookProductsNew
-php Thelia module:deactivate HookSocial
-php Thelia module:deactivate HookNewsletter
-php Thelia module:deactivate HookContact
-php Thelia module:deactivate HookLinks
-php Thelia module:deactivate HookProductsOffer
-php Thelia module:deactivate HookProductsOffer
-php Thelia module:refresh
-echo -e "Modules activated"
+    echo  "Activating modules"
+    php Thelia module:refresh
+    php Thelia module:activate OpenApi
+    php Thelia module:activate ChoiceFilter
+    php Thelia module:activate StoreSeo
+    php Thelia module:activate SmartyRedirection
+    php Thelia module:activate BestSellers
+    php Thelia module:deactivate HookAnalytics
+    php Thelia module:deactivate HookCart
+    php Thelia module:deactivate HookCustomer
+    php Thelia module:deactivate HookSearch
+    php Thelia module:deactivate HookLang
+    php Thelia module:deactivate HookCurrency
+    php Thelia module:deactivate HookNavigation
+    php Thelia module:deactivate HookProductsNew
+    php Thelia module:deactivate HookSocial
+    php Thelia module:deactivate HookNewsletter
+    php Thelia module:deactivate HookContact
+    php Thelia module:deactivate HookLinks
+    php Thelia module:deactivate HookProductsOffer
+    php Thelia module:refresh
+fi
 
-echo -e "Changing active template"
 
-php Thelia template:set --name="$TEMPLATE_NAME" --type="frontOffice"
+echo  "Changing active template"
+# php Thelia template:set --name="$TEMPLATE_NAME" --type="frontOffice" # THELIA 2.5
+php Thelia template:front $TEMPLATE_NAME # THELIA 2.4.4
 
-echo -e "Active template changed"
+read -p "$(echo "Would you like to create an administrator (y/n)?")" withAdmin
+if [ "$withAdmin" != "${withAdmin#[Yy]}" ] ;then
+  echo "Creating an admin account${NEWLINE} login:${yellow}thelia2${reset}${NEWLINE}password ${yellow}thelia2${reset}"
+  php Thelia admin:create --login_name thelia2 --password thelia2 --last_name thelia2 --first_name thelia2 --email thelia2@example.com
+fi
 
-echo -e "Creating an administrator"
-
-php Thelia admin:create --login_name thelia2 --password thelia2 --last_name thelia2 --first_name thelia2 --email thelia2@example.com
-
-echo -e "Administrator created"
-
-TEMPLATE_NAME=modern
 
 if test -f "$DB_FILE"; then
-    read -p "$(echo -e "\e[1;37;45m Would you like to install a sample database (y/n)? \e[0m")" sample
+    read -p "$(echo "Would you like to install a sample database (y/n)?")" sample  
     if [ "$sample" != "${sample#[Yy]}" ] ;then
       if test -f local/setup/import.php; then
         php local/setup/import.php
       elif test -f setup/import.php; then
         php setup/import.php
       else
-        echo -e "Import script not found"
+        echo  "${red}Import script not found${reset}"
         exit
       fi
-        echo -e "Sample data imported"
+      echo  "${green}Sample data imported${reset}"
     fi
 fi
 
-rm -rf ./cache
+rm -rf ./cache || exit
 
-cd "templates/frontOffice/$TEMPLATE_NAME" || exit
+cd "templates/frontOffice/$TEMPLATE_NAME"
 
-echo -e "Installing dependencies with yarn"
+echo  "Installing dependencies with yarn"
 yarn install || exit
 
-echo -e "Building template"
+echo  "Building template"
 yarn build || exit
 
 
 cd ../../..
 
-echo -e "Everything is ok, you can now use your Thelia !"
-
-# INIT CONSTANTS
-# ------------------------------
+echo  "${green}Everything is ok, you can now use your Thelia !${reset}"
 
 exit 1
