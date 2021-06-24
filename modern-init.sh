@@ -28,12 +28,11 @@ if command -v yarn > /dev/null 2>&1
 then
     echo "${green}Yarn: OK${reset}"
 else
-    echo "${red}Yarn is not installed or nor in your PATH${reset}"
+    echo "${red}Yarn is not installed nor in your PATH${reset}"
     exit 1
 fi
 
 echo "Checking composer is installed"
-
 if command -v composer > /dev/null 2>&1
   then
     echo "${green}Composer: OK${reset}"
@@ -105,13 +104,13 @@ php Thelia template:front $TEMPLATE_NAME # THELIA 2.4.4
 
 read -p "$(echo "Would you like to create an administrator (y/n)?")" withAdmin
 if [ "$withAdmin" != "${withAdmin#[Yy]}" ] ;then
-  echo "Creating an admin account${NEWLINE} login:${yellow}thelia2${reset}${NEWLINE}password ${yellow}thelia2${reset}"
+  echo "Creating an admin account${NEWLINE}    login: ${yellow}thelia2${reset}${NEWLINE} password: ${yellow}thelia2${reset}"
   php Thelia admin:create --login_name thelia2 --password thelia2 --last_name thelia2 --first_name thelia2 --email thelia2@example.com
 fi
 
 
 if test -f "$DB_FILE"; then
-    read -p "$(echo "Would you like to install a sample database (y/n)?")" sample  
+    read -p "$(echo "Would you like to install a sample database (y/n)?")" sample
     if [ "$sample" != "${sample#[Yy]}" ] ;then
       if test -f local/setup/import.php; then
         php local/setup/import.php
