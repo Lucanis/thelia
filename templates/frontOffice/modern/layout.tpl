@@ -120,8 +120,6 @@
 
     {block name="javascript-data"}{/block}
 
-    {include file="components/smarty/CookieBar/CookieBar.html"}
-
     {block name="minicart"}{include file="components/React/MiniCart/MiniCart.html" }{/block}
     {block name="minilogin"}{include file="components/React/MiniLogin/MiniLogin.html"}{/block}
     {block name="search"}{include file="components/smarty/FullSearch/FullSearch.html"}{/block}
