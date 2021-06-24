@@ -52,7 +52,7 @@ if test -f "$DB_FILE"; then
 fi
 
 echo "Installing composer dependencies"
-composer install
+composer install --prefer-dist -o
 
 read -p "$(echo  "Enter a template folder name, (default: modern) it's recommended to change it : ")" TEMPLATE_NAME
 TEMPLATE_NAME=${TEMPLATE_NAME:-modern}
@@ -63,10 +63,8 @@ if [ "$TEMPLATE_NAME" != "modern" ] ;then
 fi
 
 echo  "Creating session and media folder"
-[ -d local/session ] || mkdir -p local/session
-[ -d local/media ] || mkdir -p local/media
-
-chmod -R +w local/session && chmod -R +w local/media
+[ -d local/session ] || mkdir -m +w -p local/session
+[ -d local/media ] || mkdir -m +w -p local/media
 
 
 read -p "$(echo "Would you like to install Thelia [y/n] ?")" install
